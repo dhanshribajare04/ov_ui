@@ -18,5 +18,9 @@ export class UserService {
     public getStates(countryCode: string): Observable<APIResponse<DropdownModel[]>> {
         return this.httpClient.get<APIResponse<DropdownModel[]>>(URLConstants.BASE_URL + URLConstants.GET_STATES + countryCode);
 }
+
+    public getCities(stateCode: string): Observable<APIResponse<DropdownModel[]>> {
+        return this.httpClient.get<APIResponse<DropdownModel[]>>(URLConstants.BASE_URL + URLConstants.GET_CITIES + stateCode);
 }
 
+}

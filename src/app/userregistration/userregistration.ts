@@ -11,6 +11,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { UserService } from '../services/user.service';
 import { APIResponse } from '../models/ApiResponse';
 import { DropdownModel } from '../models/dropdown.model';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'userregistration',
@@ -24,7 +26,9 @@ import { DropdownModel } from '../models/dropdown.model';
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   templateUrl: './userregistration.html',
   styleUrls: ['./userregistration.scss']
@@ -39,7 +43,6 @@ export class UserRegistration implements OnInit {
   }
   // country/state/city data
   countries: DropdownModel[] = [];
-
   states: DropdownModel[] = [];
   cities: DropdownModel[] = [];
 
@@ -117,6 +120,17 @@ export class UserRegistration implements OnInit {
 
   onStateChange(stateCode: string) {
     // call city api to get cities for selected state
+    this.userService.getCities(stateCode).subscribe(
+      (response: APIResponse<DropdownModel[]>) => {
+        if (response && response.data) {
+          this.cities = response.data;
+        }
+      },
+      (error) => {
+        this.errorMessage = 'Failed to load cities.';
+      }     
+    );
+
   }
 
   onSubmit(): void {
